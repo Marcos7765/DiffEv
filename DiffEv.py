@@ -44,7 +44,16 @@ class DiffEvolver:
                 indexes[2*i +1] = np.random.randint(0, self.popSize)
 
             donor[i] = self.bestPos + self.mf*(self.pop[indexes[2*i]] - self.pop[indexes[2*i +1]])
-        #print(f"{donor}\n")
+        def __normP(vec):
+            newVec = np.copy(vec)
+            for index, elemento in enumerate(vec):
+                if self.D[index][1] < elemento:
+                    newVec[index] = self.D[index][1]
+                    continue
+                if self.D[index][0] > elemento:
+                    newVec[index] = self.D[index][0]
+            return newVec
+        donor = np.apply_along_axis(__normP, axis=1, arr=donor)
         return donor
     
     def recombine(self, donor):
