@@ -17,8 +17,6 @@ class DiffEvolver:
         resizeVec = lambda vec : vec*resizeScale + resizeOffset
 
         self.pop = np.random.random((popSize, len(limits)))
-        self.bestVal = None
-        self.bestPos = np.empty
         self.pop[:] = np.apply_along_axis(resizeVec, axis=1, arr=self.pop)
         
 
@@ -47,11 +45,11 @@ class DiffEvolver:
         def __normP(vec):
             newVec = np.copy(vec)
             for index, elemento in enumerate(vec):
-                if self.D[index][1] < elemento:
-                    newVec[index] = self.D[index][1]
+                if self.limits[index][1] < elemento:
+                    newVec[index] = self.limits[index][1]
                     continue
-                if self.D[index][0] > elemento:
-                    newVec[index] = self.D[index][0]
+                if self.limits[index][0] > elemento:
+                    newVec[index] = self.limits[index][0]
             return newVec
         donor = np.apply_along_axis(__normP, axis=1, arr=donor)
         return donor
